@@ -7,6 +7,7 @@ from dragger import Dragger
 class Game:
     def __init__(self):
         self.next_player = 'white'
+        self.hovered_square = None
         self.board = Board()
         self.dragger =Dragger()
     #show methords
@@ -57,6 +58,19 @@ class Game:
              #blit
              pygame.draw.rect(surface, color, rect)
     
+    def show_hover(self,surface):
+        if self.hovered_square:
+            #color
+            color =(180,180,180) 
+            #rect
+            rect =(self.hovered_square.col*SQSIZE,self.hovered_square.row*SQSIZE,SQSIZE,SQSIZE)
+            #blit
+            pygame.draw.rect(surface, color, rect,width=3)
+
+
     # other methods
     def next_turn(self):
         self.next_player = 'white' if self.next_player == 'black' else 'black'
+    
+    def set_hover(self, row,col):
+        self.hovered_square = self.board.squares[row][col]
