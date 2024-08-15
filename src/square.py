@@ -23,17 +23,17 @@ class Square:
     def has_piece(self):
         return self.piece != None
 
-    def has_team_piece(self, color):
-        return self.piece != None and self.piece.color == color
+    def has_ally_piece(self, color):
+        return self.has_piece() and self.piece.color == color
 
-    def has_rival_piece(self, color):
-        return self.piece != None and self.piece.color != color
+    def has_enemy_piece(self, color):
+        return self.has_piece() and self.piece.color != color
     
     def isEmpty(self):
-        return self.piece == None
+        return not self.has_piece()
 
-    def isEmpty_or_rival(self, color):
-        return self.piece == None or self.piece.color != color
+    def isEmpty_or_enemy(self, color):
+        return self.isEmpty() or self.has_enemy_piece(color)
 
     @staticmethod
     def in_range(*args):

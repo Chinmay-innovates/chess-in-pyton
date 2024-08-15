@@ -28,7 +28,7 @@ class Board:
              for possible_move in possible_moves:
                  possible_move_row,possible_move_col = possible_move
                  if Square.in_range(possible_move_row,possible_move_col):
-                    if self.squares[possible_move_row][possible_move_col].isEmpty_or_rival(piece.color):
+                    if self.squares[possible_move_row][possible_move_col].isEmpty_or_enemy(piece.color):
                         # create squares of the new move
                         initial = Square(row,col)
                         final = Square(possible_move_row,possible_move_col)
@@ -38,14 +38,99 @@ class Board:
                         piece.add_move(move)
                           
          def pawn_moves():
-             pass
+            # steps
+            steps = 1 if piece.moved else 2
 
-         if isinstance(piece,Pawn):pawn_moves()
-         elif isinstance(piece, Knight):knight_moves()
-         elif isinstance(piece, Bishop):pass
-         elif isinstance(piece, Rook):pass
-         elif isinstance(piece, Queen):pass
-         elif isinstance(piece, King):pass
+            #vertical moves 
+            start = row + piece.dir
+            end = row + (piece.dir * (1 + steps))
+            for possible_move_row in range(start, end , piece.dir):
+                if Square.in_range(possible_move_row):
+                    if self.squares[possible_move_row][col].isEmpty():
+                        # create initial , final squares of the move
+                        initial = Square(row,col)
+                        final = Square(possible_move_row,col)
+                        # create  new move
+                        move = Move(initial, final)
+                        # append new valid move
+                        piece.add_move(move)
+                    # blocked 
+                    else : break
+                # not iin range
+                else : break 
+
+            #diagonal moves 
+            possible_move_row = row + piece.dir
+            possible_move_cols = [col-1 , col+1]
+            for possible_move_col in possible_move_cols:
+                if Square.in_range(possible_move_row,possible_move_col):
+                    if self.squares[possible_move_row][possible_move_col].has_enemy_piece(piece.color):
+                        # create initial , final squares of the move
+                        initial = Square(row,col)
+                        final = Square(possible_move_row, possible_move_col)
+                        # create  new move
+                        move = Move(initial, final)
+                        # append new valid move
+                        piece.add_move(move)
+                        
+         def straight_line_moves(increaments):
+             for increament in increaments:
+                row_inc, col_inc = increament
+                possible_move_row = row + row_inc
+                possible_move_col = col + col_inc
+                while True:
+                    if Square.in_range(possible_move_row, possible_move_col):
+                        # create squares of the possible new move
+                        initial = Square(row, col)
+                        final = Square(possible_move_row, possible_move_col, self.squares[possible_move_row][possible_move_col].piece)
+                        move = Move(initial, final)
+                        # empty = continue looping
+                        if self.squares[possible_move_row][possible_move_col].isEmpty():
+                            # append new move
+                            piece.add_move(move)
+                        # piece 
+                        else: 
+                            if self.squares[possible_move_row][possible_move_col].has_enemy_piece(piece.color):
+                                # new move and stop
+                                piece.add_move(move)
+                            break
+                    else: # not in range
+                        break
+                    # increment move
+                    possible_move_row, possible_move_col = possible_move_row + row_inc, possible_move_col + col_inc
+
+
+         if isinstance(piece,Pawn):
+            pawn_moves()
+         elif isinstance(piece, Knight):
+            knight_moves()
+         elif isinstance(piece, Bishop):
+            straight_line_moves([
+                (-1 , 1), # upper right 
+                (-1 , -1), # upper left
+                (1 , -1), # bottom left
+                (1 , 1) # bottom right
+            ])
+         elif isinstance(piece, Rook):
+            straight_line_moves([
+                (-1 , 0), # up
+                (0 , 1), # right
+                (1 , 0), # down
+                (0 , -1) # left
+            ])
+         elif isinstance(piece, Queen):
+            straight_line_moves([
+                (-1 , 1), # upper right 
+                (-1 , -1), # upper left
+                (1 , -1), # bottom left
+                (1 , 1), # bottom right
+                (-1 , 0), # up
+                (0 , 1), # right
+                (1 , 0), # down
+                (0 , -1) # left
+            ])
+         elif isinstance(piece, King):
+            pass
 
     
     # _create , _add_piece are private methods
