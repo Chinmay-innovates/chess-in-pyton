@@ -14,8 +14,16 @@ class Config:
         self.font = pygame.font.SysFont('monospace', 18, bold=True)
         self.move_sound = Sound(
             os.path.join('assets/sounds/move.wav'))
-        self.capture_sound = Sound(
+        self.captured_sound = Sound(
             os.path.join('assets/sounds/capture.wav'))
+        self.check_sound = Sound(
+            os.path.join('assets/sounds/check.wav'))
+        self.checkmate_sound = Sound(
+            os.path.join('assets/sounds/checkmate.wav'))
+        self.illegal_move_sound = Sound(
+            os.path.join('assets/sounds/illegal.wav'))
+        self.promoted_sound = Sound(
+            os.path.join('assets/sounds/promote.wav'))
 
     def change_theme(self):
         self.idx += 1
