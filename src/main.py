@@ -23,6 +23,7 @@ class Main:
         while True:
             #show methord
             game.show_bg(screen)
+            game.show_last_move(screen)
             game.show_moves(screen)
             game.show_pieces(screen)
 
@@ -45,6 +46,7 @@ class Main:
                             dragger.drag_piece(piece)
                             #show methord
                             game.show_bg(screen)
+                            game.show_last_move(screen)
                             game.show_moves(screen)
                             game.show_pieces(screen)
                 # mouse motion
@@ -53,6 +55,7 @@ class Main:
                         dragger.update_mouse(event.pos)
                         # show methord
                         game.show_bg(screen)
+                        game.show_last_move(screen)
                         game.show_moves(screen)
                         game.show_pieces(screen)
                         dragger.update_blit(screen)
@@ -75,6 +78,7 @@ class Main:
                            board.move(dragger.piece,move)
                            # show methord
                            game.show_bg(screen)
+                           game.show_last_move(screen)
                            game.show_pieces(screen)
                            # next turn
                            game.next_turn()
