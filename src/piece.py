@@ -18,6 +18,9 @@ class Piece:
         # self.texture=os.path.join(
         #  f'assets/images/imgs-{size}px/{self.color}_{self.name}.png'
         # )
+    
+    def clear_moves(self):
+        self.moves = []
 
     def add_move(self,move):
         self.moves.append(move)    
