@@ -4,6 +4,7 @@ from config import Config
 from const import *
 from board import Board
 from dragger import Dragger
+from square import Square
 
 class Game:
     def __init__(self):
@@ -25,7 +26,7 @@ class Game:
                 #blit
                 pygame.draw.rect(surface, color, rect)
                 # row cordinates
-                if col==0:
+                if col == 0:
                     #color
                     color= theme.bg.dark if row % 2 == 0 else theme.bg.light
                     #label
@@ -33,6 +34,15 @@ class Game:
                     label_position =(5 , 5 + row * SQSIZE)
                     # blit
                     surface.blit(label,label_position) 
+                # col cordinates
+                if row == 7:
+                    #color
+                    color= theme.bg.dark if (row + col) % 2 == 0 else theme.bg.light
+                    #label
+                    label = self.config.font.render(Square.get_alphacol(col), 1 , color)
+                    label_position =(col * SQSIZE + SQSIZE -20 , HEIGHT - 20)
+                    # blit
+                    surface.blit(label,label_position)
     
     def show_pieces(self,surface):
          for row in range(ROWS):

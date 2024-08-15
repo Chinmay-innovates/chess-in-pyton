@@ -11,7 +11,7 @@ class Config:
         self._add_themes()
         self.idx = 0
         self.theme = self.themes[self.idx]
-        self.font = pygame.font.SysFont('monospace', 18, bold=True)
+        self.font = pygame.font.SysFont('sans-serif', 22 , bold=False)
         self.move_sound = Sound(
             os.path.join('assets/sounds/move.wav'))
         self.captured_sound = Sound(
