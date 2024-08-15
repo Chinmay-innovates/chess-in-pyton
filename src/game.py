@@ -24,6 +24,15 @@ class Game:
                 rect = (col*SQSIZE ,row*SQSIZE ,SQSIZE,SQSIZE)
                 #blit
                 pygame.draw.rect(surface, color, rect)
+                # row cordinates
+                if col==0:
+                    #color
+                    color= theme.bg.dark if row % 2 == 0 else theme.bg.light
+                    #label
+                    label = self.config.font.render(str(ROWS - row), 1 , color)
+                    label_position =(5 , 5 + row * SQSIZE)
+                    # blit
+                    surface.blit(label,label_position) 
     
     def show_pieces(self,surface):
          for row in range(ROWS):
