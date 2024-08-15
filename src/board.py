@@ -9,6 +9,19 @@ import os
 class Board:
 
     def __init__(self):
+        """
+    Initialize a new chess board.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+
+    The board is initialized with 8x8 squares, each containing a piece.
+    The last_move attribute is set to None initially.
+    The _create() and _add_pieces() methods are called to set up the board.
+    """
         self.squares = [[0, 0, 0, 0, 0, 0, 0, 0] for col in range(COLS)]
         self.last_move = None
         self._create()
@@ -16,6 +29,10 @@ class Board:
         self._add_pieces('black')
 
     def move(self, piece, move, testing=False):
+        """
+       This function simulates a move of a piece on the chess board.
+    """
+
         initial = move.initial
         final = move.final
 
