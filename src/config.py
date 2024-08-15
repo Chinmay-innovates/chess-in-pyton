@@ -21,7 +21,7 @@ class Config:
         self.checkmate_sound = Sound(
             os.path.join('assets/sounds/checkmate.wav'))
         self.illegal_move_sound = Sound(
-            os.path.join('assets/sounds/illegal.wav'))
+            os.path.join('assets/sounds/illeagal.wav'))
         self.promoted_sound = Sound(
             os.path.join('assets/sounds/promote.wav'))
 
