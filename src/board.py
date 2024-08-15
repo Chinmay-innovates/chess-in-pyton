@@ -4,7 +4,7 @@ from square import Square
 from piece import *
 class Board:
     def __init__(self):
-        self.squares = [[0,0,0,0,0,0,0,0] for _col in range(COLS)]
+        self.squares = [[0,0,0,0,0,0,0,0] for col in range(COLS)]
         self.last_move=None
         self._create()
         self._add_pieces('white')
@@ -20,14 +20,22 @@ class Board:
         self.squares[initial.row][initial.col].piece=None
         self.squares[final.row][final.col].piece=piece
 
+        # pawn promotion
+        if isinstance(piece, Pawn):
+            self.check_promotion(piece,final)
         # move
         piece.moved = True
 
         # clear valid moves 
         piece.clear_moves()
 
+
         # set last move
         self.last_move = move
+
+    def check_promotion(self, piece, final):
+        if final.row == 0 or final.row == 7:
+            self.squares[final.row][final.col].piece = Queen(piece.color)
 
     def valid_move(self,piece,move):
         return move in piece.moves 
