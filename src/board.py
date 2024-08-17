@@ -73,17 +73,57 @@ class Board:
 
         # set last move
         self.last_move = move
+    """
+    Check if a given move is valid for a specific piece.
 
+    Parameters:
+    piece (Piece): The chess piece for which the move is being checked.
+    move (Move): The move to be checked.
+
+    Returns:
+    bool: True if the move is valid for the given piece, False otherwise.
+    """
     def valid_move(self, piece, move):
         return move in piece.moves
 
+    """
+    Checks if a pawn has reached the end of the board and promotes it to a queen.
+
+    Parameters:
+    piece (Piece): The pawn that needs to be checked for promotion.
+    final (Square): The square where the pawn is located after the move.
+
+    Returns:
+    None. The function modifies the board directly by changing the pawn's type to a queen.
+    """
     def check_promotion(self, piece, final):
         if final.row == 0 or final.row == 7:
             self.squares[final.row][final.col].piece = Queen(piece.color)
+            
+    
+    """
+    Performs a castling move on the chess board.
 
+    Parameters:
+    initial (Square): The initial square of the king or rook involved in the castling.
+    final (Square): The final square of the king or rook involved in the castling.
+
+    Returns:
+    None. The function modifies the board directly by moving the king and rook.
+    """
     def castling(self, initial, final):
         return abs(initial.col - final.col) == 2
+    
 
+    """
+    Sets the en_passant attribute of a given pawn to True.
+
+    Parameters:
+    piece (Piece): The pawn for which the en_passant attribute needs to be set.
+
+    Returns:
+    None. The function modifies the en_passant attribute of the given pawn directly.
+    """
     def set_true_en_passant(self, piece):
         
         if not isinstance(piece, Pawn):
@@ -95,7 +135,17 @@ class Board:
                     self.squares[row][col].piece.en_passant = False
         
         piece.en_passant = True
+    
+    """
+    Check if a given move puts a specific piece in check.
 
+    Parameters:
+    piece (Piece): The chess piece for which the check is being checked.
+    move (Move): The move to be checked.
+
+    Returns:
+    bool: True if the move puts the piece in check, False otherwise.
+    """
     def in_check(self, piece, move):
         temp_piece = copy.deepcopy(piece)
         temp_board = copy.deepcopy(self)
@@ -112,7 +162,20 @@ class Board:
                             return True
         
         return False
+    
+    '''
+    Calculate all the possible (valid) moves of a specific piece on a specific position.
 
+    Parameters:
+    self (Board): The instance of the class.
+    piece (Piece): The specific chess piece for which the moves need to be calculated.
+    row (int): The row position of the chess piece on the board.
+    col (int): The column position of the chess piece on the board.
+    bool (bool, optional): A boolean flag indicating whether to check for potential checks during move calculation. Defaults to True.
+
+    Returns:
+    None. The function modifies the `moves` attribute of the `piece` object by adding valid move objects to it.
+    '''
     def calc_moves(self, piece, row, col, bool=True):
         '''
             Calculate all the possible (valid) moves of an specific piece on a specific position
@@ -442,12 +505,45 @@ class Board:
 
         elif isinstance(piece, King): 
             king_moves()
+    
 
+    """
+    Initializes the chess board by creating empty squares.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+
+    The function iterates over each row and column of the chess board,
+    creating a new Square object at each position and assigning it to the corresponding
+    position in the 'squares' attribute of the Board object.
+    """
     def _create(self):
         for row in range(ROWS):
             for col in range(COLS):
                 self.squares[row][col] = Square(row, col)
+    
+    """
+    Initializes the chess board by adding pieces of a specific color.
 
+    Parameters:
+    color (str): The color of the pieces to be added. It can be either 'white' or 'black'.
+
+    Returns:
+    None
+
+    The function iterates over each row and column of the chess board,
+    creating a new Square object at each position and assigning it to the corresponding
+    position in the 'squares' attribute of the Board object. The pieces added are:
+    - Pawns
+    - Knights
+    - Bishops
+    - Rooks
+    - Queen
+    - King
+    """
     def _add_pieces(self, color):
         row_pawn, row_other = (6, 7) if color == 'white' else (1, 0)
 
