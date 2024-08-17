@@ -1,6 +1,7 @@
 
 import pygame
 
+from ai import AI
 from const import *
 from board import Board
 from dragger import Dragger
@@ -15,6 +16,9 @@ class Game:
         self.board = Board()
         self.dragger = Dragger()
         self.config = Config()
+        self.ai = AI()
+        self.gamemode = 'ai'
+        
 
     # blit methods
 
@@ -124,3 +128,11 @@ class Game:
 
     def reset(self):
         self.__init__()
+
+    def change_gamemode(self):
+        self.gamemode = 'ai' if self.gamemode == 'pvp' else 'pvp'
+    def select_piece(self, piece):
+        self.selected_piece = piece
+     
+    def unselect_piece(self):
+        self.selected_piece = None

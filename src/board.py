@@ -22,12 +22,23 @@ class Board:
     The last_move attribute is set to None initially.
     The _create() and _add_pieces() methods are called to set up the board.
     """
-        self.squares = [[0, 0, 0, 0, 0, 0, 0, 0] for col in range(COLS)]
+        self.squares = [[0, 0, 0, 0, 0, 0, 0, 0] for _col in range(COLS)]
         self.last_move = None
         self._create()
         self._add_pieces('white')
         self._add_pieces('black')
+    
 
+    def __str__(self):
+        s = '\n'
+        for row in range(ROWS):
+            s += '[ '
+            for col in range(COLS):
+                sqr = self.squares[row][col]
+                s += '[ ]' if sqr.isEmpty() else str(sqr.piece)
+                s += ' '
+            s += ']\n'
+        return s
     def move(self, piece, move, testing=False):
         """
        This function simulates a move of a piece on the chess board.

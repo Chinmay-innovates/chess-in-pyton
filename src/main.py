@@ -19,6 +19,7 @@ class Main:
         screen = self.screen
         game = self.game
         board = self.game.board
+        ai = self.game.ai
         dragger = self.game.dragger
 
         while True:
@@ -102,12 +103,49 @@ class Main:
                             game.show_pieces(screen)
                             # next turn
                             game.next_turn()
-                    
+
+                            # --------------
+                            # >>>>> AI >>>>>
+                            # --------------
+                            if game.gamemode == 'ai':
+                                # update
+                                game.unselect_piece()
+                                game.show_pieces(screen)
+                                pygame.display.update()
+                                # optimal move
+                                move = ai.eval(board)
+                                initial = move.initial
+                                final = move.final
+                                # piece
+                                piece = board.squares[initial.row][initial.col].piece
+                                # capture
+                                captured = board.squares[final.row][final.col].has_piece()
+                                # move
+                                board.move(piece, move)
+                                game.play_sound(captured)
+                                # draw
+                                game.show_bg(screen)
+                                game.show_pieces(screen)
+                                # next -> AI
+                                game.next_turn()
+
+                    game.unselect_piece()                    
                     dragger.undrag_piece()
                 
                 # key press
                 elif event.type == pygame.KEYDOWN:
+
+                    # gamemode
+                    if event.key == pygame.K_a:
+                        game.change_gamemode()
                     
+                    # depth
+                    if event.key == pygame.K_3:
+                        ai.depth = 3
+
+                    if event.key == pygame.K_4:
+                        ai.depth = 4
+
                     # changing themes
                     if event.key == pygame.K_t:
                         game.change_theme()
@@ -115,9 +153,12 @@ class Main:
                      # changing themes
                     if event.key == pygame.K_r:
                         game.reset()
+                        screen = self.screen
                         game = self.game
                         board = self.game.board
+                        ai = self.game.ai
                         dragger = self.game.dragger
+                        
 
                 # quit application
                 elif event.type == pygame.QUIT:
