@@ -3,6 +3,10 @@
   <li>Entry point : main.py</li>
   <li>press <i>t</i> to change theme of game</li>
     <li>press <i>r</i> to restart the game</li>
+    <li>
+      press <i>a</i> to change mave mode to AI
+    </li>
+    depths : 3 - 4
   
 </ul>
 <h1>Board</h1>
